@@ -22,6 +22,7 @@ function getDogBreeds() {
 function getDogImage(breed) {
   fetch(`https://dog.ceo/api/breed/${breed}/images/random`)
     .then(response => response.json())
+    .then(myjson => console.log(myjson))
     .then(response => displayResults(response.url))
     .catch(error => alert('Something went wrong in getDogImage. Try again later.'));
 }

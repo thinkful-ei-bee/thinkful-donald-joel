@@ -22,14 +22,16 @@ function getDogBreeds() {
 function getDogImage(breed) {
   fetch(`https://dog.ceo/api/breed/${breed}/images/random`)
     .then(response => response.json())
-    .then(myjson => console.log(myjson))
-    .then(response => displayResults(response.url))
-    .catch(error => alert('Something went wrong in getDogImage. Try again later.'));
+    .then(myjson => displayResults(myjson))
+    .catch(error => alert('Breed does not exist!'));
 }
 
 
-function displayResults(imgURL) {
-  let temp = `<img src="${imgURL}" class="results-img">`;
+function displayResults(myjson) {
+  if(myjson.status !== 'success') {
+    throw new Error('');
+  }
+  let temp = `<img src="${myjson.message}" class="results-img">`;
   $('.results-img').replaceWith(temp);
   $('.results').removeClass('hidden');
 }

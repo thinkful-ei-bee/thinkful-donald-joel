@@ -1,8 +1,13 @@
 'use strict';
 
 let STORE = {
-  picArray: []
+  picArray: [],
+  appIsReady: false,
 };
+
+// Take breed input
+// Is breed valid? Get list of all breeds at app start?
+//
 
 function getDogImage(numPic) {
   fetch(`https://dog.ceo/api/breeds/image/random/${numPic}`)

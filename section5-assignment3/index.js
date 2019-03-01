@@ -2,6 +2,7 @@
 
 let STORE = {
   picArray: [],
+  breeds: [],
   appIsReady: false,
 };
 
@@ -9,13 +10,21 @@ let STORE = {
 // Is breed valid? Get list of all breeds at app start?
 //
 
+function getDogBreeds() {
+  fetch('https://dog.ceo/api/breeds/list/all')
+    .then(response => response.json())
+    // .then(responseJson => 
+    //   displayResults(responseJson))
+    .then(responseJson => makeBreeds(responseJson))
+    .then(STORE.appIsReady = true)
+    .catch(error => alert('Something went wrong. Try again later.'));
+}
+
 function getDogImage(numPic) {
   fetch(`https://dog.ceo/api/breeds/image/random/${numPic}`)
     .then(response => response.json())
     // .then(responseJson => 
     //   displayResults(responseJson))
-    .then(responseJson => 
-      makeArray(responseJson))
     .then(displayResults)
     .catch(error => alert('Something went wrong. Try again later.'));
 }
@@ -36,23 +45,23 @@ function displayResults() {
   $('.results').removeClass('hidden');
 }
 
-function makeArray(responseJson) {// convert response to array
-  STORE.picArray = responseJson.message;
-  console.log(STORE.picArray);
+function makeBreeds(responseJson) {
+  STORE.breeds = responseJson.message;
 }
 
 function watchForm() {
   $('form').submit(event => {
     event.preventDefault();
-    if($('.js-num-pic').val() > 50) {
-      alert('please choose between 1-50');
+    if(!STORE.appIsReady) {
+      alert('Please wait for the app to finish background tasks');
       return;
     }
-    getDogImage($('.js-num-pic').val());
+    getDogImage($('.js-breed-pic').val());
   });
 }
 
 $(function() {
+  getDogBreeds();
   console.log('App loaded! Waiting for submit!');
-  watchForm();
+  //watchForm();
 });

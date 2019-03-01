@@ -11,16 +11,22 @@ function getDogImage(numPic) {
     //   displayResults(responseJson))
     .then(responseJson => 
       makeArray(responseJson))
+    .then(displayResults)
     .catch(error => alert('Something went wrong. Try again later.'));
-    
 }
 
-function displayResults(responseJson) {
-  console.log(responseJson);
+function htmlTemplate() {
+  let temp = [];
+  for (let i = 0; i < STORE.picArray.length; i++) {
+    temp.push(`<img src="${STORE.picArray[i]}" class="results-img">`)
+  }
+  return temp.join('');
+}
+
+function displayResults() {
+  //console.log(responseJson);
   //replace the existing image with the new one
-  $('.results-img').replaceWith(
-    `<img src="${responseJson.message}" class="results-img">`
-  );
+  $('.results-img').replaceWith(htmlTemplate());
   //display the results section
   $('.results').removeClass('hidden');
 }
